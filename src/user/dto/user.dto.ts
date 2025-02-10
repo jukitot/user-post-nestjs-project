@@ -9,7 +9,6 @@ import {
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { Match } from '../../common/decorator/password.decorator';
-import { IsCityAllowed } from '../../common/decorator/city.decorator';
 
 export class UserDto {
   @IsString()
@@ -36,15 +35,12 @@ export class UserDto {
     example: 'Poltava',
   })
   @IsOptional()
-  @IsCityAllowed({
-    groups: ['Lviv', 'Odessa', 'Kharkiv'],
-    message: 'City is not allowed',
-  })
   city: string;
 
   @IsString()
   @Matches(/^\S*(?=\S{8,})(?=\S*[A-Z])(?=\S*[\d])\S*$/, {
-    message: 'Password must have 1 upper case',
+    message:
+      'Password must have 1 upper case and special symbol like "! @ % & *"',
   })
   @IsNotEmpty()
   password: string;
@@ -57,9 +53,9 @@ export class UserDto {
 
 export class ForgotPassword {
   @IsString()
-  // @IsStrongPassword()
   @Matches(/^\S*(?=\S{8,})(?=\S*[A-Z])(?=\S*[\d])\S*$/, {
-    message: 'Password must have 1 upper case',
+    message:
+      'Password must have 1 upper case and special symbol like "! @ % & *" ',
   })
   password: string;
 

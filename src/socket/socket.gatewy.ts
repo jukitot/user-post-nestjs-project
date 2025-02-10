@@ -1,7 +1,11 @@
-import {Injectable} from "@nestjs/common";
-import {SubscribeMessage, WebSocketGateway, WebSocketServer} from "@nestjs/websockets";
-import {Server, Socket} from "socket.io";
-import {AuthService} from "../auth/auth.service";
+import { Injectable } from '@nestjs/common';
+import {
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
+} from '@nestjs/websockets';
+import { Server, Socket } from 'socket.io';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 @WebSocketGateway({
@@ -15,8 +19,8 @@ export class SocketGateway {
 
   @SubscribeMessage('sign-in')
   async joinInRoom(client: Socket, data: { token: string }): Promise<any> {
-    console.log(data, 'data')
-    console.log('----------------------')
+    console.log(data, 'data');
+    console.log('----------------------');
     try {
       const user = await this.authService.validate(data.token);
       console.log(user, 'user');
@@ -24,7 +28,7 @@ export class SocketGateway {
         client.emit('user-unauthorized', {
           statusCode: 401,
           error: 'Unauthorized',
-        })
+        });
 
         return 'Unauthorized';
       }
@@ -44,7 +48,7 @@ export class SocketGateway {
       client.emit('user-unauthorized', {
         statusCode: 401,
         error: 'Unauthorized',
-      })
+      });
 
       return 'Unauthorized';
     }

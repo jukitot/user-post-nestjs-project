@@ -1,4 +1,3 @@
-import { ExtractJwt } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Strategy } from 'passport-http-bearer';
@@ -18,7 +17,7 @@ export class BearerStrategy extends PassportStrategy(Strategy, 'bearer') {
 
   async validate(token: string) {
     try {
-      const decodeToken: any = this.jwtService.decode(token);
+      const decodeToken: any = this.jwtService.verifyAsync(token);
       if (!(await this.redisClient.exists(`user-token-${decodeToken?.id}`))) {
         throw new UnauthorizedException();
       }
@@ -33,4 +32,22 @@ export class BearerStrategy extends PassportStrategy(Strategy, 'bearer') {
       throw new UnauthorizedException();
     }
   }
+  //
+  // async validate(token: string) {
+  //   try {
+  //     const decodeToken: any = this.jwtService.decode(token);
+  //     if (!(await this.redisClient.exists(`user-token-${decodeToken?.id}`))) {
+  //       throw new UnauthorizedException();
+  //     }
+  //     await this.jwtService.verifyAsync(token);
+  //     const user = await this.authService.validateUser(
+  //       decodeToken.id,
+  //       decodeToken.email,
+  //     );
+  //     return user;
+  //   } catch (e) {
+  //     console.log(e);
+  //     throw new UnauthorizedException();
+  //   }
+  // }
 }

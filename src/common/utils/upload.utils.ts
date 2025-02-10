@@ -9,4 +9,4 @@ export const editFileName = (req, file, callback) => {
     .map(() => Math.round(Math.random() * 10).toString(10))
     .join('');
   callback(null, `${randomName}${fileExtName}`);
-}
+};
