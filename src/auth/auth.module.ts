@@ -7,10 +7,11 @@ import { RedisModule } from '@webeleon/nestjs-redis';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { BearerStrategy } from './bearer.strategy';
+import { Post } from '../database/entities/post.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Post]),
     forwardRef(() => RedisModule.forFeature()),
     PassportModule.register({
       defaultStrategy: 'bearer',

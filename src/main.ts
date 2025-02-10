@@ -13,20 +13,19 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
-      // disableErrorMessages: true,
     }),
   );
 
   app.use('/upload', express.static(join(process.cwd(), 'upload')));
 
   const config = new DocumentBuilder()
-    .setTitle('Nest bonus module')
-    .setDescription('The may-2024 API description')
+    .setTitle('Nest users-posts project')
+    .setDescription('Description')
     .setVersion('1.0')
-    .addTag('okten')
+    .addTag('@jukitot')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/doc', app, documentFactory);
+  SwaggerModule.setup('api/docs', app, documentFactory);
 
   await app.listen(3003);
 }
